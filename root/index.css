@@ -1,0 +1,50 @@
+
+	body{
+	background-color: #CCCCCC;
+	margin:0px auto;
+	padding:0;
+	max-width: 1200px;
+	border: solid;
+	border-color: #FFFFFF;
+	color: black;
+}
+header{
+	background-color: #F5F5DC;
+	text-align: center;
+	font-size: 20px;
+	border:2px solid olivedrab;
+}
+.main{
+	width:100%;
+	height:1200px;
+	margin-top: 10px;
+}
+aside{
+	background-color:white;
+	width:15%;
+	float:left;
+	border-right:1px solid;
+	height:100%;
+	margin-right: 10px;
+	
+
+}
+aside div{
+	top: 400px;
+	position:fixed;
+}
+
+.right{
+	width:66%;
+	float:left;
+	height:100%;
+}
+h1{
+	color:cadetblue;
+}
+.content{
+	/* color:cadetblue; */
+}
+td{
+	text-align: center;
+}

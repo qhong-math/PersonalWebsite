@@ -1,0 +1,174 @@
+body {font-family: "Lato", sans-serif;}
+
+.contain{
+	
+	padding: 0;
+	margin:0 auto;
+	width:1150px;
+
+}
+.move{
+	width:1150px;
+	/* top: 0px;
+	position:fixed; */
+	margin:0;
+	
+}
+
+.move ul{
+	width:100%;
+    list-style-type:none;
+  
+    padding:0;
+    
+   /* background-color:#333; */
+	background-image: linear-gradient(to right, red, orange, yellow, green, yellow, orange, red);
+  }
+  
+  .move ul li{
+    display:inline;
+  }
+  
+  .move ul li a, .dropbtn
+  {
+    display:inline-block;
+    color:white;
+    text-align:center;
+    padding:14px 16px;
+    text-decoration:none;
+  }
+  
+  .move ul li a:hover, .dropdown:hover, .dropbtn:hover
+  {
+    background-color:#111;
+  }
+  
+  .dropdown
+  {
+    display:inline-block;
+  }
+  
+  .dropdown-content
+  {
+    display:none;
+    position:absolute;
+    background-color:#f9f9f9;
+    min-width:160px;
+    box-shadow:0px 8px 16px 0px rgba(0,0,0,0.2);
+  }
+  
+  .dropdown-content a
+  {
+    color:black;
+    padding:12px 16px;
+    text-decoration:none;
+    display:block;
+  }
+  
+ 
+  .dropdown-content a:hover {background-color:#66CC00;}
+  .dropdown:hover .dropdown-content
+  {
+    display:block;
+  }
+.main{
+	margin-top:0;
+	width:100%;
+}
+.left{
+	width:30%;
+	height:1000px;
+	margin:0px;
+	margin-top: 30px;
+	border: 2px solid orange;
+	
+	display:inline-block;
+	
+}
+.Tab{
+
+	margin:0;
+	padding:0;
+	/* background-color: #f1f1f1; */
+	
+}
+
+.tab{
+	display:block;
+	width:100%;
+	border:none;
+	font-size:17px;
+	height:30px;
+}
+.tab:hover {
+	background-color:blue;
+}
+.tab.active{
+	background-color:blue;
+}
+
+
+.panel{
+	text-align: center;
+	
+	display:block;
+}
+.panel p{
+	border-radius: 25px;
+	
+	background-color:cadetblue;
+	margin:0px;
+}
+.panel button {
+    background-color: inherit;
+    font-size: 17px;
+	float:left;
+
+	padding: 0 16px;
+	border: none;
+	outline: none;
+}
+.panel button:hover{
+	 background-color:blue;
+}
+.panel button.active{
+	 background-color:red;
+}
+.right{
+	width:68%;
+	height:1000px;
+	mragin-left:50px;
+	margin-top: 30px;
+	float:right;
+	background-color: beige;
+	display:inline-block;
+	overflow:auto;
+}
+
+
+
+.tabcontent{
+	padding-left:10px;
+	display:none;
+	-webkit-animation: fadeEffect 1s;
+	animation: fadeEffect 1s;
+	
+}
+.tabcontent p{
+	text-indent: 2em;
+}
+.tabcontent .title{
+	font-size:30px;
+	text-indent: 0px;
+}
+/* Fade in tabs */
+@-webkit-keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
