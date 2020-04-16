@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>串口小助手</title>
+		<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+		<link rel="stylesheet" href="base.css">
+	</head>
+	<body>
+		<header>
+			<h1>改造串口助手</h1>
+			<h3>时间：2020年2月29日</h3>
+		</header>
+		<div class="main">
+			<aside class="left">
+				<div>
+					<span >
+						<a href="../../../downMenu.html" style="font-size:24px" target="_blank">个人主页 
+						<i class="fa fa-envelope-open"></i>
+						</a>
+					</span>
+					<span><a href="https://pyserial.readthedocs.io/en/latest/pyserial_api.html" target="_blank">PySerial官网</a></span>
+				</div>
+			</aside>
+			<div class="right">
+				
+					<h1>一：参考文献</h1>
+					<ul>
+						<li><a href="https://blog.csdn.net/zhang__shuang_/article/details/82527314" target="_blank">文件读取</a></li>
+						<li><a href="https://blog.csdn.net/m0_37135615/article/details/82178881" target="_blank">pySerial模块介绍</a></li>
+						<li><a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017685387246080" target="_blank">廖雪峰：二进制与字符串的转化</a></li>
+					</ul>
+					<h1>二：文件</h1>
+					<h2>文件存放在E:\pycharm\untitled\201902\24\RevisePort</h2>
+					<table border="2px" width="920px">
+					<tr>
+						<th>文件名</th>
+						<th>说明</th>
+						<th>Git的本地仓库</th>
+					</tr>
+					<tr>
+						<td>CreatePort.ui</td>
+						<td>利用QtDesigner进行GUI的布局</td>
+						<td rowspan="3">cb124ed6bae126baa58191a394</td>
+					</tr>
+					<tr>
+						<td>CreatePort.py</td>
+						<td>从ui文件转化为py文件的指令：pyuic5 -o CreatePort.py CreatePort.ui</td>
+						
+					</tr>
+					<tr>
+						<td>main.py</td>
+						<td>进行功能的设计</td>
+						
+					</tr>
+					<tr>
+						<td>main.exe</td>
+						<td colspan="2">生成exe文件的指令：pyinstaller -F -w main.py CreatePort.py</td>
+						
+					</tr>
+					</table>
+					
+					<h1>三：代码分析</h1>
+					<!-- 方法的列举 -->
+					<h2>1 、方法总体介绍</h2>
+					<table border="2px" width="800px">
+						<caption style="font-size: 30px;">Main类</caption>
+						<tr>
+							<th >方法</th>
+							<th>作用</th>
+						</tr>
+						<tr>
+							<td  >__init__(self, parent=None)</td>
+							<td >Main类的初始化</td>
+						</tr>
+						<tr>
+							<td>setSlot(self)</td>
+							<td>信号槽的初始化</td>
+						</tr>
+						<tr>
+							<td>searchPort(self)</td>
+							<td>查找串口号</td>
+						</tr>
+						<tr>
+							<td>start(self)</td>
+							<td>启动线程</td>
+						</tr>
+						<tr>
+							<td>end(self)</td>
+							<td>关闭线程</td>
+						</tr>
+						<tr>
+							<td>clearR(self)</td>
+							<td>清除接收区数据</td>
+						</tr>
+						<tr>
+							<td>clearS(self)</td>
+							<td>清除发送区数据</td>
+						</tr>
+						<tr>
+							<td>openFile(self)</td>
+							<td>打开文件</td>
+						</tr>
+						<tr>
+							<td>send(self)</td>
+							<td>发送数据</td>
+						</tr>
+						<tr>
+							<td>showR(self,sh)</td>
+							<td>接收区显示串口信息</td>
+						</tr>
+					
+					</table>
+					<h2>2、讲解一些细节</h2>
+					<h3>2.1 、串口通信的初始化</h3>
+					<p>在__init__内实例化serial类，要先导入类即<font color="darkblue">import serial</font></p>
+					<p>代码	 self.ser = serial.Serial()</p>
+					<p style="line-height: 2em;">在这里顺便看下Serial类的__init__(port=None, baudrate=9600, <font color="darkblue">bytesize=EIGHTBITS</font>, parity=PARITY_NONE, <font color="darkblue">stopbits=STOPBITS_ONE</font>, 
+						<font color="darkblue">timeout=None,</font> xonxoff=False,rtscts=False, write_timeout=None, dsrdtr=False, inter_byte_timeout=None),可以看出所有的参数都有默认值,其中bytesize和stopbits表示数据位和停止位，
+						这两个值默认就行；需要修改的值有baudrate和port,即波特率和串口号。另外，timeout可以控制读取的时间，若超时，则不再阻塞。
+					</p>
+					<p>在GUI中使用下拉框来记录串口号和波特率，因此需要将信息存入下拉框内，波特率的值在Qt Designer内设定，串口号的值在<font color="darkblue">searchPort方法内进行设定。</font>在window环境下，串口号的值设为<font color="darkblue">COM+数字</font>。</p>
+					<p>这里有三点需要注意:</p>
+					<ul>
+						<li>由于下拉框添加的值为一个列表，所以在添加时需要将下拉框清空！</li>
+						<li>实现COM+数字的效果，需要对每一个值进行索引，切片操作，所以这里添加的方法是addItem(),而不用addItems()！</li>
+						<li>添加值必须是字符串，否则会出现异常</li>
+					</ul>
+					<p>当两个下拉框都配置好后，可以根据需要修改串口号和波特率，<font color="crimson">其代码放置在Worker类的run方法中。</font></p>
+					<p>修改串口号和波特率的代码： main.ser.setPort(Port); main.ser.baudrate=Rate</p>
+					<p>开启串口：main.ser.open()</p>
+					<p>关闭串口：main.ser.close()</p>
+					
+					<h3>2.2串口通信的读取</h3>
+					<p>由于python在进行数据通信采用的是二进制传输，所以在接收的数据是bytes数据，需要对bytes数据进行转换处理，
+						转化为其他数据类型，如整形，浮点数，字符串。在这里，串口通信传送的是文件数据，需要将bytes数据转化为字符串。
+					</p>
+					<p>转化代码——str(b"", 'utf-8')</p>
+					<p>serial类提供的读取方法有read(size=1),readline(),read_until(expected=LF, size=None).</p>
+					<ul>
+						<li>第一个方法是读取比特大小的数据，size参数控制读取的比特数量</li>
+						<li>第二个方式是直到读取"\n"才停止；拓展方法：readlines(),返回值是list类型</li>
+						<li>第三个方法的参数说明，expected是读取的结束符，默认值是"\n";size读取的字节数。这个方法还没用过。</li>
+					</ul>
+					<h3>2.3串口通信的发送</h3>
+					<p>Serial提供的发送方法就只有两个方法write(data)和writelines(datas),其中data是bytes类型的数据，write的返回值为int，表示写入的bytes的数量；
+					datas是bytes类型的列表，列表中的元素无需加"\n",程序会自动在不同元素之间加入"\r\n"</p>
+					<p><font color="crimson">需要注意的是，data不能是字符串，write支持整形，浮点型的数据还没试过！
+					另外，如果想传输字符串的话，可以这样处理，data='hello'.encode('utf-8')； write（data）</font>
+					</p>
+					
+					
+					<h3>2.4控件的一些使用方法</h3>
+					<h4>2.4.1获取控件的值（字符串）</h4>
+					<p>下拉框(QComboBox)：Port=main.com_showPort.<font color="#5F9EA0">currentText()</font>；Rate=main.com_showRate.<font color="#5F9EA0">currentText()</font></p>
+					<p>单行文本框（QLineEdit)：QLineEdit.<font color="#5F9EA0">text()</font></p>
+					<p>多行文本框（QTextEdit）:self.text_showS. <font color="#5F9EA0">toPlainText</font>(self.dataS)</p>
+					<h4>2.4.2 控件内容的改变,data必须是字符串</h4>
+					<p>下拉框（QComboBox）:self.com_showPort.<font color="#5F9EA0">addItem(data)</font></p>
+					<p>单行文本框（QLineEdit):QLineEdit.<font color="#5F9EA0">setText(data)</font></p>
+					<p>多行文本框（QTextEdit）:self.text_showS.<font color="#5F9EA0">setPlainText(data)</font></p>
+					<h4>2.4.3控件的操作</h4>
+					<p>对于单行文本框（QLineEdit)和多行文本框（QTextEdit）来说，.setReadOnly(True)设置文本不可修改；.setReadOnly(False)则相反</p>
+					<p>对于按钮（QPushButton）来说，.setEnabled(Treu)设置按钮可点击；.setEnabled(False)设置按钮不可点击</p>
+					<p>提示框：QMessageBox.about(self, "错误", "出现异常")</p>
+					<p>获取文件路径：</p>
+<pre>
+	dlg=QFileDialog()
+	dlg.setFileMode(QFileDialog.AnyFile)
+	dlg.setFilter(QDir.Files)
+	if dlg.exec_():
+		fileNames=dlg.selectedFiles()
+	self.text_showFile.setPlainText(fileNames[0])
+</pre>				
+					<h2>3、改进/不足</h2>
+					<p>从总体上来说，功能是比较完善，以后有别的需要可以再更改。唯一不足的地方就是线程类的使用不是很合理，可以考虑换个方式来实现线程。
+					研究一下<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017628290184064" target="_blank">廖雪峰：进程</a>
+					 ,<a href="https://www.liaoxuefeng.com/wiki/1016959663602400/1017629247922688">廖雪峰：线程</a></p>
+			
+			
+			</div>
+		</div>	
+		
+	</body>
+</html>
